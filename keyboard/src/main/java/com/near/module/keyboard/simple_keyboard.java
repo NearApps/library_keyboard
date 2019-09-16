@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.near.module.keyboard.keyboards.alphanumeric;
 import com.near.module.keyboard.keyboards.numeric;
 
 public class simple_keyboard {
@@ -18,7 +19,7 @@ public class simple_keyboard {
     private static final String TAG = simple_keyboard.class.getSimpleName();
 
     public enum TYPE{ DIALOG, DOWN_ACTIVITY }
-    public enum KEYBOARD{ NUMERIC, TEXT }
+    public enum KEYBOARD{ NUMERIC, ALPHANUMERIC }
 
     public static final int NULL = -1;
 
@@ -35,7 +36,8 @@ public class simple_keyboard {
         private simple_keyboard.TYPE TYPE = simple_keyboard.TYPE.DIALOG;
 
         private simple_keyboard.KEYBOARD KEYBOARD = simple_keyboard.KEYBOARD.NUMERIC;
-        private keyboard_numeric_config CONFIG;
+        private keyboard_numeric_config CONFIG_NUMERIC;
+        private keyboard_alphanumeric_config CONFIG_ALPHANUMERIC;
 
         private boolean DEBUG = false;
         private boolean PREVIEW = true;
@@ -66,7 +68,13 @@ public class simple_keyboard {
 
         public Builder setKeyboard( @NonNull simple_keyboard.KEYBOARD keyboard, @NonNull keyboard_numeric_config config) {
             this.KEYBOARD = keyboard;
-            this.CONFIG = config;
+            this.CONFIG_NUMERIC = config;
+            return this;
+        }
+
+        public Builder setKeyboard( @NonNull simple_keyboard.KEYBOARD keyboard, @NonNull keyboard_alphanumeric_config config) {
+            this.KEYBOARD = keyboard;
+            this.CONFIG_ALPHANUMERIC = config;
             return this;
         }
 
@@ -105,9 +113,24 @@ public class simple_keyboard {
                     view_num = new numeric(activity, TYPE, content2, LENGTH);
                 }
 
-                view_num.setConfig( CONFIG );
+                view_num.setConfig( CONFIG_NUMERIC );
                 view_num.setPreview( PREVIEW );
                 view_num.show();
+            }else if (  KEYBOARD.equals( simple_keyboard.KEYBOARD.ALPHANUMERIC ) ){
+                alphanumeric view_alphanum = null;
+                if ( content1 != null ){
+                    view_alphanum = new alphanumeric(activity, TYPE, content1, LENGTH);
+                }else if ( content2 != null ){
+                    if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        content2.setShowSoftInputOnFocus(false);
+                    }
+                    content2.setFilters(new InputFilter[] {new InputFilter.LengthFilter(LENGTH)});
+                    view_alphanum = new alphanumeric(activity, TYPE, content2, LENGTH);
+                }
+
+                view_alphanum.setConfig( CONFIG_ALPHANUMERIC );
+                view_alphanum.setPreview( PREVIEW );
+                view_alphanum.show();
             }
 
             return simplekeyboard;
@@ -132,6 +155,40 @@ public class simple_keyboard {
 
         public double getLimit() { return limit; }
         public boolean isIs_decimal() { return is_decimal; }
+    }
+
+
+    public static class keyboard_alphanumeric_config{
+
+        private boolean show_symbols = false;
+        private boolean show_mayus = false;
+        private boolean set_all_mayus = false;
+        private boolean show_symbols_default = false;
+        private final String[] symbols_default = {"@", "#", "%", "&", "*", "/", "\\", "-", "+", "(", ")", "¿", "?", "!", "¡", "\"", "'", ":", ";", ",", ".", "$", "{", "}", "[", "]", "_", "<", ">", "|", "é", "É", "í", "Í", "ï", "Ï", "ö", "Ö", "ø", "Ø", "ü", "Ü", "ú", "Ú", "ƒ", "ç", "£", "½", "¼", "¬"/*, "", ""*/};
+        private String[] symbols = null;
+
+        public keyboard_alphanumeric_config( boolean set_all_mayus, boolean show_mayus, boolean show_symbols_default, String[] symbols ) {
+            this.set_all_mayus = set_all_mayus;
+            this.show_mayus = show_mayus;
+            this.show_symbols_default = show_symbols_default;
+            this.show_symbols = ( show_symbols_default || ( symbols != null ) );
+            this.symbols = symbols;
+        }
+
+        public keyboard_alphanumeric_config( boolean set_all_mayus, boolean show_mayus, boolean show_symbols_default) {
+            this.set_all_mayus = set_all_mayus;
+            this.show_mayus = show_mayus;
+            this.show_symbols_default = show_symbols_default;
+            this.show_symbols = show_symbols_default;
+            this.symbols = null;
+        }
+
+        public boolean isShow_symbols() { return show_symbols; }
+        public boolean isShow_mayus() { return show_mayus; }
+        public boolean isSet_all_mayus() { return set_all_mayus; }
+        public boolean isShow_symbols_default() { return show_symbols_default; }
+        public String[] getSymbols_default() { return symbols_default; }
+        public String[] getSymbols() { return symbols; }
     }
 
 }
