@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.near.module.keyboard.simple_keyboard;
 
@@ -70,6 +71,12 @@ public class MainActivity extends AppCompatActivity {
                         .setKeyboard( simple_keyboard.KEYBOARD.NUMERIC, new simple_keyboard.keyboard_numeric_config( false ) )
                         .setLength( 5 )
                         .setDebug( true )
+                        .setListener( new simple_keyboard.keyboard_listener() {
+                            @Override
+                            public void getText( String text ) {
+                                Toast.makeText( getApplicationContext(), "Result: " + text, Toast.LENGTH_SHORT ).show();
+                            }
+                        } )
                         .show();
             }
         } );
