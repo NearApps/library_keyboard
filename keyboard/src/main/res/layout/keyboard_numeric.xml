@@ -30,7 +30,7 @@
                 android:layout_marginRight="5dp"
                 android:text="Title"
                 android:textColor="@android:color/black"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -48,7 +48,6 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
                 android:padding="10dp"
-                android:text="000000"
                 android:textColor="@android:color/black"
                 android:textSize="25sp"
                 android:textStyle="bold"
@@ -65,7 +64,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     android:text="Limite maximo: "
                     android:textColor="@android:color/black"
                     android:textSize="14sp"
@@ -73,7 +72,7 @@
 
                 <TextView
                     android:id="@+id/txt_limit"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="0000"

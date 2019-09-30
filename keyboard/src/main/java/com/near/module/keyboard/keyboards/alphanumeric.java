@@ -138,6 +138,7 @@ public class alphanumeric {
         if ( CONFIG != null ){
             if ( !CONFIG.isShow_symbols() ){
                 layout_keyboard_symbols.setVisibility( View.GONE );
+                
                 (( AppCompatButton ) dialog.findViewById( R.id.btn_simbols )).setVisibility( View.INVISIBLE );
                 (( AppCompatButton ) dialog.findViewById( R.id.btn_simbols_2 )).setVisibility( View.INVISIBLE );
                 (( AppCompatButton ) dialog.findViewById( R.id.btn_coma )).setVisibility( View.INVISIBLE );
