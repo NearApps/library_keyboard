@@ -41,6 +41,7 @@ public class simple_keyboard {
 
         private boolean DEBUG = false;
         private boolean PREVIEW = true;
+        private String TITLE = null;
 
         private int LENGTH = 100;
 
@@ -93,8 +94,8 @@ public class simple_keyboard {
             return this;
         }
 
-        public Builder setPreview(@NonNull boolean preview ) {
-            this.PREVIEW = preview;
+        public Builder setTitle(@NonNull String title ) {
+            this.TITLE = title;
             return this;
         }
 
@@ -115,6 +116,7 @@ public class simple_keyboard {
 
                 view_num.setConfig( CONFIG_NUMERIC );
                 view_num.setPreview( PREVIEW );
+                view_num.setTitle( TITLE );
                 view_num.show();
             }else if (  KEYBOARD.equals( simple_keyboard.KEYBOARD.ALPHANUMERIC ) ){
                 alphanumeric view_alphanum = null;
@@ -130,6 +132,7 @@ public class simple_keyboard {
 
                 view_alphanum.setConfig( CONFIG_ALPHANUMERIC );
                 view_alphanum.setPreview( PREVIEW );
+                view_alphanum.setTitle( TITLE );
                 view_alphanum.show();
             }
 
@@ -142,19 +145,33 @@ public class simple_keyboard {
 
         private double limit = NULL;
         private boolean is_decimal = false;
+        private int limit_decimal = NULL;
 
         public keyboard_numeric_config( double limit, @NonNull boolean is_decimal ) {
             if ( limit != NULL ) this.limit = limit;
             this.is_decimal = is_decimal;
         }
 
-        public keyboard_numeric_config(@NonNull boolean is_decimal ) {
-            this.limit = NULL;
+        public keyboard_numeric_config( @NonNull boolean is_decimal ) {
             this.is_decimal = is_decimal;
         }
 
+        public keyboard_numeric_config( @NonNull boolean is_decimal, @NonNull int limit_decimal ) {
+            this.limit = NULL;
+            this.is_decimal = is_decimal;
+            if ( limit_decimal != NULL ) this.limit_decimal = limit_decimal;
+        }
+
+        public keyboard_numeric_config( @NonNull double limit, @NonNull boolean is_decimal, @NonNull int limit_decimal ) {
+            this.limit = limit;
+            this.is_decimal = is_decimal;
+            if ( limit_decimal != NULL ) this.limit_decimal = limit_decimal;
+        }
+
+
         public double getLimit() { return limit; }
         public boolean isIs_decimal() { return is_decimal; }
+        public int getLimit_decimal() { return limit_decimal; }
     }
 
 

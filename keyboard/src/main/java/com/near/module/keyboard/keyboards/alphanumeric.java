@@ -30,9 +30,10 @@ public class alphanumeric {
 
     private simple_keyboard.keyboard_alphanumeric_config CONFIG = null;
     private boolean PREVIEW = true;
+    private String TITLE = null;
 
 
-    private TextView txt_result;
+    private TextView txt_result, txt_title;
 
     private LinearLayout layout_keyboard, layout_keyboard_symbols;
     private View.OnClickListener listener_alphanumeric;
@@ -58,6 +59,7 @@ public class alphanumeric {
 
             txt_result = (( TextView ) dialog.findViewById( R.id.txt_result ));
             txt_result.setVisibility( PREVIEW ? View.VISIBLE : View.GONE );
+            txt_title = (( TextView ) dialog.findViewById( R.id.txt_title ));
             layout_keyboard = (( LinearLayout ) dialog.findViewById( R.id.layout_keyboard ));
             layout_keyboard_symbols = (( LinearLayout ) dialog.findViewById( R.id.layout_keyboard_symbols ));
             init_components(dialog);
@@ -86,6 +88,7 @@ public class alphanumeric {
 
             txt_result = (( TextView ) dialog.findViewById( R.id.txt_result ));
             txt_result.setVisibility( PREVIEW ? View.VISIBLE : View.GONE );
+            txt_title = (( TextView ) dialog.findViewById( R.id.txt_title ));
             layout_keyboard = (( LinearLayout ) dialog.findViewById( R.id.layout_keyboard ));
             layout_keyboard_symbols = (( LinearLayout ) dialog.findViewById( R.id.layout_keyboard_symbols ));
             init_components(dialog);
@@ -104,6 +107,11 @@ public class alphanumeric {
     }
 
     private void init_components( final Dialog dialog){
+
+        txt_title.setVisibility( (TITLE != null) ? ((TITLE.trim().length() > 0) ? View.VISIBLE : View.GONE) : View.GONE);
+        if ( txt_title.getVisibility() == View.VISIBLE ){
+            txt_title.setText( TITLE );
+        }
 
         if ( (( TextView )TXT).getText().toString().trim().length() > 0 ){
             if ( (( TextView )TXT).getText().toString().trim().length() > LENGTH ){
@@ -333,6 +341,6 @@ public class alphanumeric {
 
     public void setConfig( simple_keyboard.keyboard_alphanumeric_config config ) { this.CONFIG = config; }
     public void setPreview( boolean preview ) { this.PREVIEW = preview; }
-
+    public void setTitle( String title ) { this.TITLE = title; }
 
 }

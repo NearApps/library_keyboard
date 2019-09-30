@@ -17,6 +17,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView( R.layout.activity_main );
 
 
+        final TextView txt_demo_0 = ( ( TextView ) findViewById( R.id.txt_demo_0 ) );
+        txt_demo_0.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View view ) {
+                simple_keyboard.newBuilder( MainActivity.this )
+                        .setContent( txt_demo_0 )
+                        .setType( simple_keyboard.TYPE.DIALOG )
+                        .setKeyboard( simple_keyboard.KEYBOARD.NUMERIC, new simple_keyboard.keyboard_numeric_config( 2232.1050, true, 2 ) )
+                        .setLength( 8 )
+                        .setTitle( "Escriba un número" )
+                        .setDebug( true )
+                        .show();
+            }
+        } );
+
         final EditText txt_demo_1 = ( ( EditText ) findViewById( R.id.txt_demo_1 ) );
         txt_demo_1.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -41,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
                         .setKeyboard( simple_keyboard.KEYBOARD.NUMERIC, new simple_keyboard.keyboard_numeric_config( 2232.1050, true ) )
                         .setLength( 8 )
                         .setDebug( true )
-                        //VISIBLE PREVIEW
                         .show();
             }
         } );
@@ -75,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
                         .setType( simple_keyboard.TYPE.DIALOG )
                         .setKeyboard( simple_keyboard.KEYBOARD.ALPHANUMERIC, new simple_keyboard.keyboard_alphanumeric_config( false, false,false ) )
                         .setLength( 8 )
+                        .setTitle( "Escriba aquí" )
                         .setDebug( true )
                         .show();
             }

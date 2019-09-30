@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
@@ -27,13 +28,14 @@ public class numeric {
     private View TXT;
     private int LENGTH;
 
-    private TextView txt_result;
+    private TextView txt_result, txt_title;
     private LinearLayout layout_limit;
 
 
 
     private simple_keyboard.keyboard_numeric_config CONFIG = null;
     private boolean PREVIEW = true;
+    private String TITLE = null;
 
 
     public numeric( Context context, simple_keyboard.TYPE type, View TXT, int LENGTH ){
@@ -58,6 +60,7 @@ public class numeric {
 
             txt_result = (( TextView ) dialog.findViewById( R.id.txt_result ));
             txt_result.setVisibility( PREVIEW ? View.VISIBLE : View.GONE );
+            txt_title = (( TextView ) dialog.findViewById( R.id.txt_title ));
             layout_limit = (( LinearLayout ) dialog.findViewById( R.id.layout_limit ));
             layout_limit.setVisibility( View.GONE );
             init_components(dialog);
@@ -86,6 +89,7 @@ public class numeric {
 
             txt_result = (( TextView ) dialog.findViewById( R.id.txt_result ));
             txt_result.setVisibility( PREVIEW ? View.VISIBLE : View.GONE );
+            txt_title = (( TextView ) dialog.findViewById( R.id.txt_title ));
             layout_limit = (( LinearLayout ) dialog.findViewById( R.id.layout_limit ));
             layout_limit.setVisibility( View.GONE );
             init_components(dialog);
@@ -105,7 +109,10 @@ public class numeric {
 
     private void init_components( final Dialog dialog){
 
-
+        txt_title.setVisibility( TITLE != null ? (TITLE.trim().length() > 0 ? View.VISIBLE : View.GONE) : View.GONE);
+        if ( txt_title.getVisibility() == View.VISIBLE ){
+            txt_title.setText( TITLE );
+        }
 
         if ( (( TextView )TXT).getText().toString().trim().length() > 0 ){
 
@@ -140,7 +147,15 @@ public class numeric {
                         double d =  Double.parseDouble( String.format( "%s%s", txt_result.getText().toString(), ( ( AppCompatButton ) view ).getText().toString() ) );
                         if ( CONFIG != null && CONFIG.getLimit() != simple_keyboard.NULL ){
                             if ( d <= CONFIG.getLimit() ){
-                                txt_result.setText( String.format( "%s%s", txt_result.getText().toString(), ( ( AppCompatButton ) view ).getText().toString() ) );
+                                if ( CONFIG.getLimit_decimal() != simple_keyboard.NULL && txt_result.getText().toString().contains(".") ){
+                                    if ( (((txt_result.getText().toString().substring( txt_result.getText().toString().indexOf( "." ) ).length()))) <= CONFIG.getLimit_decimal() ){
+                                        txt_result.setText( String.format( "%s%s", txt_result.getText().toString(), ( ( AppCompatButton ) view ).getText().toString() ) );
+                                    }else{
+                                        Toast.makeText( context, "debe tener " + CONFIG.getLimit_decimal() + " decimales", Toast.LENGTH_SHORT ).show();
+                                    }
+                                }else{
+                                    txt_result.setText( String.format( "%s%s", txt_result.getText().toString(), ( ( AppCompatButton ) view ).getText().toString() ) );
+                                }
                                 layout_limit.setVisibility( View.GONE );
                             }else {
                                 layout_limit.setVisibility( View.VISIBLE );
@@ -214,4 +229,5 @@ public class numeric {
 
     public void setConfig( simple_keyboard.keyboard_numeric_config config ) { this.CONFIG = config; }
     public void setPreview( boolean preview ) { this.PREVIEW = preview; }
+    public void setTitle( String title ) { this.TITLE = title; }
 }
