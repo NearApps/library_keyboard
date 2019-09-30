@@ -29,6 +29,7 @@ public class alphanumeric {
     private int LENGTH;
 
     private simple_keyboard.keyboard_alphanumeric_config CONFIG = null;
+    private simple_keyboard.keyboard_listener LISTENER = null;
     private boolean PREVIEW = true;
     private String TITLE = null;
 
@@ -69,7 +70,11 @@ public class alphanumeric {
                 @Override
                 public void onDismiss( DialogInterface dialogInterface ) {
                     if ( txt_result.getText().toString().length() > 0 ){
-                        (( TextView )TXT).setText( txt_result.getText().toString() );
+                        if ( LISTENER != null ){
+                            LISTENER.getText( txt_result.getText().toString() );
+                        }else{
+                            (( TextView )TXT).setText( txt_result.getText().toString() );
+                        }
                     }
                 }
             } );
@@ -98,7 +103,11 @@ public class alphanumeric {
                 @Override
                 public void onDismiss( DialogInterface dialogInterface ) {
                     if ( txt_result.getText().toString().length() > 0 ){
-                        (( TextView )TXT).setText( txt_result.getText().toString() );
+                        if ( LISTENER != null ){
+                            LISTENER.getText( txt_result.getText().toString() );
+                        }else{
+                            (( TextView )TXT).setText( txt_result.getText().toString() );
+                        };
                     }
                 }
             } );
@@ -114,10 +123,14 @@ public class alphanumeric {
         }
 
         if ( (( TextView )TXT).getText().toString().trim().length() > 0 ){
-            if ( (( TextView )TXT).getText().toString().trim().length() > LENGTH ){
-                txt_result.setText((( TextView )TXT).getText().toString().trim().substring( 0, LENGTH ));
+            if ( LISTENER != null ){
+                txt_result.setText("");
             }else{
-                txt_result.setText((( TextView )TXT).getText().toString().trim());
+                if ( (( TextView )TXT).getText().toString().trim().length() > LENGTH ){
+                    txt_result.setText((( TextView )TXT).getText().toString().trim().substring( 0, LENGTH ));
+                }else{
+                    txt_result.setText((( TextView )TXT).getText().toString().trim());
+                }
             }
         }
 
@@ -342,5 +355,6 @@ public class alphanumeric {
     public void setConfig( simple_keyboard.keyboard_alphanumeric_config config ) { this.CONFIG = config; }
     public void setPreview( boolean preview ) { this.PREVIEW = preview; }
     public void setTitle( String title ) { this.TITLE = title; }
+    public void setListener( simple_keyboard.keyboard_listener listener ) { this.LISTENER = listener; }
 
 }

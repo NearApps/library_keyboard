@@ -1,11 +1,8 @@
 package com.near.module.keyboard;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
 import android.text.InputFilter;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -39,6 +36,7 @@ public class simple_keyboard {
         private keyboard_numeric_config CONFIG_NUMERIC;
         private keyboard_alphanumeric_config CONFIG_ALPHANUMERIC;
 
+        private keyboard_listener LISTENER = null;
         private boolean DEBUG = false;
         private boolean PREVIEW = true;
         private String TITLE = null;
@@ -99,6 +97,11 @@ public class simple_keyboard {
             return this;
         }
 
+        public Builder setListener(@NonNull keyboard_listener keyboard_listener ) {
+            this.LISTENER = keyboard_listener;
+            return this;
+        }
+
         public simple_keyboard show() {
             simple_keyboard simplekeyboard = new simple_keyboard();
 
@@ -117,6 +120,7 @@ public class simple_keyboard {
                 view_num.setConfig( CONFIG_NUMERIC );
                 view_num.setPreview( PREVIEW );
                 view_num.setTitle( TITLE );
+                view_num.setListener( LISTENER );
                 view_num.show();
             }else if (  KEYBOARD.equals( simple_keyboard.KEYBOARD.ALPHANUMERIC ) ){
                 alphanumeric view_alphanum = null;
@@ -133,6 +137,7 @@ public class simple_keyboard {
                 view_alphanum.setConfig( CONFIG_ALPHANUMERIC );
                 view_alphanum.setPreview( PREVIEW );
                 view_alphanum.setTitle( TITLE );
+                view_alphanum.setListener( LISTENER );
                 view_alphanum.show();
             }
 
@@ -174,7 +179,6 @@ public class simple_keyboard {
         public int getLimit_decimal() { return limit_decimal; }
     }
 
-
     public static class keyboard_alphanumeric_config{
 
         private boolean show_symbols = false;
@@ -206,6 +210,10 @@ public class simple_keyboard {
         public boolean isShow_symbols_default() { return show_symbols_default; }
         public String[] getSymbols_default() { return symbols_default; }
         public String[] getSymbols() { return symbols; }
+    }
+
+    public interface keyboard_listener{
+        public void getText( String text );
     }
 
 }

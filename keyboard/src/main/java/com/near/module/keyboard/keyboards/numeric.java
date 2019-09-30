@@ -34,6 +34,7 @@ public class numeric {
 
 
     private simple_keyboard.keyboard_numeric_config CONFIG = null;
+    private simple_keyboard.keyboard_listener LISTENER = null;
     private boolean PREVIEW = true;
     private String TITLE = null;
 
@@ -70,7 +71,11 @@ public class numeric {
                 @Override
                 public void onDismiss( DialogInterface dialogInterface ) {
                     if ( txt_result.getText().toString().length() > 0 ){
-                        (( TextView )TXT).setText( txt_result.getText().toString() );
+                        if ( LISTENER != null ){
+                            LISTENER.getText( txt_result.getText().toString() );
+                        }else{
+                            (( TextView )TXT).setText( txt_result.getText().toString() );
+                        }
                     }
                 }
             } );
@@ -99,7 +104,11 @@ public class numeric {
                 @Override
                 public void onDismiss( DialogInterface dialogInterface ) {
                     if ( txt_result.getText().toString().length() > 0 ){
-                        (( TextView )TXT).setText( txt_result.getText().toString() );
+                        if ( LISTENER != null ){
+                            LISTENER.getText( txt_result.getText().toString() );
+                        }else{
+                            (( TextView )TXT).setText( txt_result.getText().toString() );
+                        }
                     }
                 }
             } );
@@ -116,24 +125,28 @@ public class numeric {
 
         if ( (( TextView )TXT).getText().toString().trim().length() > 0 ){
 
-            String number = "";
-            if ( (( TextView )TXT).getText().toString().trim().length() > LENGTH ){
-                number = (( TextView )TXT).getText().toString().trim().substring( 0, LENGTH );
+            if ( LISTENER != null ){
+                txt_result.setText( "" );
             }else{
-                number = (( TextView )TXT).getText().toString().trim();
-            }
+                String number = "";
+                if ( (( TextView )TXT).getText().toString().trim().length() > LENGTH ){
+                    number = (( TextView )TXT).getText().toString().trim().substring( 0, LENGTH );
+                }else{
+                    number = (( TextView )TXT).getText().toString().trim();
+                }
 
-            try {
-                Integer.parseInt( number );
-                txt_result.setText( number );
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
                 try {
-                    Double.parseDouble( number );
+                    Integer.parseInt( number );
                     txt_result.setText( number );
-                } catch (NumberFormatException e2) {
-                    e2.printStackTrace();
-                    txt_result.setText( "" );
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    try {
+                        Double.parseDouble( number );
+                        txt_result.setText( number );
+                    } catch (NumberFormatException e2) {
+                        e2.printStackTrace();
+                        txt_result.setText( "" );
+                    }
                 }
             }
         }
@@ -230,4 +243,5 @@ public class numeric {
     public void setConfig( simple_keyboard.keyboard_numeric_config config ) { this.CONFIG = config; }
     public void setPreview( boolean preview ) { this.PREVIEW = preview; }
     public void setTitle( String title ) { this.TITLE = title; }
+    public void setListener( simple_keyboard.keyboard_listener listener ) { this.LISTENER = listener; }
 }
